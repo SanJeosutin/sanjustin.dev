@@ -1,12 +1,21 @@
-html, body {
-    padding: 0;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen;
-    background-color: #f9f9f9;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ← add this */
+
+@layer base {
+  /* Light mode defaults */
+  html {
+    @apply bg-light-sea-green-300 text-celeste-700;
+    scroll-behavior: smooth;
   }
-  * {
-    box-sizing: border-box;
+  /* Dark mode when html has class "dark" */
+  html.dark {
+    @apply bg-gray-900 text-gray-100;
   }
-  
-  a { text-decoration: none; color: inherit; }
-  
+
+  html, body {
+    @apply transition-colors duration-500 ease-in-out;
+  }
+}

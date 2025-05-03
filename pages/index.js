@@ -1,35 +1,49 @@
-import ProjectCard from '../components/ProjectCard';
-import styles from '../styles/Home.module.css';
+// pages/index.js
+import SiteNav from '../components/Navbar'
+import Hero from '../components/Hero'
+import About from '../components/About'
+import Projects from '../components/Projects'
+import Contact from '../components/Contact'
 
-export default function Home({ repos }) {
+export default function Home({ repos, theme, setTheme }) {
   return (
-    <div className={styles.container}>
-      <header className={styles.header}>
-        <h1>Justin San.</h1>
-        <p>My very own software portfolio</p>
-      </header>
-      <main>
-        <h2>Featured Projects</h2>
-        <div className={styles.grid}>
-          {repos.map(repo => (
-            <ProjectCard key={repo.id} repo={repo} />
-          ))}
-        </div>
-      </main>
-    </div>
-  );
+    <>
+      {/* NAVBAR */}
+      <div id="hero">
+        <SiteNav theme={theme} setTheme={setTheme} />
+        <Hero />
+      </div>
+
+      {/* ABOUT */}
+      <div id="about">
+        <About />
+      </div>
+
+      {/* PROJECTS */}
+      <div id="projects">
+        <Projects repos={repos} />
+      </div>
+
+      {/* CONTACT */}
+      <div id="contact">
+        <Contact />
+      </div>
+    </>
+  )
 }
 
 export async function getStaticProps() {
-  const username = process.env.GITHUB_USERNAME || 'SanJeosutin';
-  const res = await fetch(`https://api.github.com/users/${username}/repos`);
-  const data = await res.json();
-  const repos = (Array.isArray(data) ? data : [])
+  const res = await fetch(
+    'https://api.github.com/users/SanJeosutin/repos?per_page=100'
+  )
+  let repos = await res.json()
+  repos = repos
     .filter(r => !r.fork)
-    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    .sort((a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    )
 
   return {
-    props: { repos },
-    revalidate: 3600 // Re-generate every hour
-  };
+    props: { repos }
+  }
 }

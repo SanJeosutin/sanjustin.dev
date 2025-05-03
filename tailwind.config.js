@@ -1,0 +1,68 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: 'class',
+  content: [
+    './app/**/*.{js,jsx,ts,tsx}',         
+    './pages/**/*.{js,jsx,ts,tsx}',       
+    './components/**/*.{js,jsx,ts,tsx}',  
+    'node_modules/flowbite/**/*.{js,jsx,ts,tsx}',
+    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        'light-sea-green': {
+          DEFAULT: '#07beb8',
+          100: '#012625',
+          200: '#034d4a',
+          300: '#04736f',
+          400: '#069a95',
+          500: '#07beb8',
+          600: '#0ff6ef',
+          700: '#4bf8f3',
+          800: '#87fbf7',
+          900: '#c3fdfb',
+        },
+        'robin-egg-blue': {
+          DEFAULT: '#3dccc7',
+          100: '#0b2a29',
+          200: '#165452',
+          300: '#217e7b',
+          400: '#2da8a4',
+          500: '#3dccc7',
+          600: '#64d6d2',
+          700: '#8be0dd',
+          800: '#b2eae9',
+          900: '#d8f5f4',
+        },
+        'tiffany-blue': {
+          DEFAULT: '#68d8d6',
+          100: '#0d3332',
+          200: '#1a6665',
+          300: '#289997',
+          400: '#36cbc9',
+          500: '#68d8d6',
+          600: '#87e0df',
+          700: '#a5e8e7',
+          800: '#c3f0ef',
+          900: '#e1f7f7',
+        },
+        'celeste': {
+          DEFAULT: '#c4fff9',
+          100: '#005a51',
+          200: '#00b4a2',
+          300: '#0effe7',
+          400: '#68fff0',
+          500: '#c4fff9',
+          600: '#cefffa',
+          700: '#dafffb',
+          800: '#e7fffd',
+          900: '#f3fffe',
+        },
+      },
+    },
+  },
+  plugins: [
+    require('flowbite/plugin'),
+  ],
+}
