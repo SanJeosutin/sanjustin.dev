@@ -1,12 +1,6 @@
 import { useRef, useEffect } from 'react'
-import {
-  useTrail,
-  useSpring,
-  animated,
-  config as springConfig,
-} from '@react-spring/web'
+import { useTrail, useSpring, animated, config as springConfig } from '@react-spring/web'
 import Image from 'next/image'
-import { Button } from 'flowbite-react'
 
 const BANNERS = [
   '/images/banner1.jpg',
@@ -15,7 +9,7 @@ const BANNERS = [
 ]
 
 const headingText = "Hi, I'm Justin"
-const subtitleText = "A Software Developer that something something here"
+const subtitleText = "An enthusiastic software developer that love to tinker with new technologies."
 
 export default function Hero() {
   const scrollRef = useRef(null)
@@ -104,10 +98,10 @@ export default function Hero() {
         {/* “Learn More” button appears after text */}
         <animated.div style={buttonSpring}>
           <a
-            href="#projects"
+            href="#about"
             onClick={() => {
               document
-                .getElementById('projects')
+                .getElementById('about')
                 ?.scrollIntoView({ behavior: 'smooth' })
             }}
             className=" mt-6 inline-block px-6 py-3 rounded-lg shadow-md bg-persian_green-500 hover:bg-persian_green-600 text-white font-medium transition-colors duration-300 ease-in-outdark:bg-charcoal-700 dark:hover:bg-charcoal-600 dark:text-gray-100">

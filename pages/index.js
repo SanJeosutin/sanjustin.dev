@@ -40,7 +40,7 @@ export default function Home({ repos, theme, setTheme }) {
 
 export async function getStaticProps() {
   const res = await fetch(
-    'https://api.github.com/users/SanJeosutin/repos?per_page=100'
+    'https://api.github.com/users/SanJeosutin/repos?per_page=250'
   )
   let repos = await res.json()
   repos = repos

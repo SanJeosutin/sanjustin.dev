@@ -7,7 +7,7 @@ export default function SiteNav({ theme, setTheme }) {
   const router = useRouter()
 
   const navItems = [
-    { label: 'Home',         href: '/' },
+    { label: 'Home',         href: '/#hero' },
     { label: 'About',        href: '/#about' },
     { label: 'Projects',     href: '/#projects' },
     { label: 'Current Work', href: '/#current-work' },
