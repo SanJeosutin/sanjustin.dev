@@ -2,63 +2,25 @@
 module.exports = {
   darkMode: 'class',
   content: [
-    './app/**/*.{js,jsx,ts,tsx}',         
-    './pages/**/*.{js,jsx,ts,tsx}',       
-    './components/**/*.{js,jsx,ts,tsx}',  
+    './app/**/*.{js,jsx,ts,tsx}',
+    './pages/**/*.{js,jsx,ts,tsx}',
+    './components/**/*.{js,jsx,ts,tsx}',
     'node_modules/flowbite/**/*.{js,jsx,ts,tsx}',
     'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
     extend: {
       colors: {
-        'light-sea-green': {
-          DEFAULT: '#07beb8',
-          100: '#012625',
-          200: '#034d4a',
-          300: '#04736f',
-          400: '#069a95',
-          500: '#07beb8',
-          600: '#0ff6ef',
-          700: '#4bf8f3',
-          800: '#87fbf7',
-          900: '#c3fdfb',
-        },
-        'robin-egg-blue': {
-          DEFAULT: '#3dccc7',
-          100: '#0b2a29',
-          200: '#165452',
-          300: '#217e7b',
-          400: '#2da8a4',
-          500: '#3dccc7',
-          600: '#64d6d2',
-          700: '#8be0dd',
-          800: '#b2eae9',
-          900: '#d8f5f4',
-        },
-        'tiffany-blue': {
-          DEFAULT: '#68d8d6',
-          100: '#0d3332',
-          200: '#1a6665',
-          300: '#289997',
-          400: '#36cbc9',
-          500: '#68d8d6',
-          600: '#87e0df',
-          700: '#a5e8e7',
-          800: '#c3f0ef',
-          900: '#e1f7f7',
-        },
-        'celeste': {
-          DEFAULT: '#c4fff9',
-          100: '#005a51',
-          200: '#00b4a2',
-          300: '#0effe7',
-          400: '#68fff0',
-          500: '#c4fff9',
-          600: '#cefffa',
-          700: '#dafffb',
-          800: '#e7fffd',
-          900: '#f3fffe',
-        },
+        'charcoal':
+          { DEFAULT: '#264653', 100: '#080e11', 200: '#0f1c22', 300: '#172b32', 400: '#1f3943', 500: '#264653', 600: '#3f7489', 700: '#609db6', 800: '#95bece', 900: '#cadee7' },
+        'persian_green':
+          { DEFAULT: '#2a9d8f', 100: '#081f1d', 200: '#113f39', 300: '#195e56', 400: '#217e73', 500: '#2a9d8f', 600: '#3acbba', 700: '#6cd8cb', 800: '#9de5dc', 900: '#cef2ee' },
+        'saffron':
+          { DEFAULT: '#e9c46a', 100: '#3b2c09', 200: '#755912', 300: '#b0851a', 400: '#e0ad2e', 500: '#e9c46a', 600: '#edd086', 700: '#f1dca4', 800: '#f6e7c3', 900: '#faf3e1' },
+        'sandy_brown':
+          { DEFAULT: '#f4a261', 100: '#401f04', 200: '#803e09', 300: '#c05e0d', 400: '#f07e22', 500: '#f4a261', 600: '#f6b681', 700: '#f8c8a1', 800: '#fbdac0', 900: '#fdede0' },
+        'burnt_sienna':
+          { DEFAULT: '#e76f51', 100: '#371107', 200: '#6e220f', 300: '#a43316', 400: '#db441e', 500: '#e76f51', 600: '#ec8b73', 700: '#f1a896', 800: '#f5c5b9', 900: '#fae2dc' }
       },
     },
   },

@@ -1,37 +1,54 @@
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { Navbar } from 'flowbite-react'
 import ThemeToggle from './ThemeToggle'
 
 export default function SiteNav({ theme, setTheme }) {
+  const router = useRouter()
+
+  const navItems = [
+    { label: 'Home',         href: '/' },
+    { label: 'About',        href: '/#about' },
+    { label: 'Projects',     href: '/#projects' },
+    { label: 'Current Work', href: '/#current-work' },
+    { label: 'Contact',      href: '/#contact' },
+  ]
+
   return (
     <Navbar
       fluid
       rounded
       className="
-      transition-colors duration-500 ease-in-out
-      bg-light-sea-green-300 text-celeste-700    /* light theme */
-        dark:bg-gray-800 dark:text-gray-300    /* dark theme */
+        sticky top-0 z-50
+        bg-persian_green-500 text-white
+        dark:bg-gray-800 dark:text-gray-300
         shadow
       "
     >
       <Navbar.Brand href="/">
         <span className="self-center whitespace-nowrap text-xl font-semibold">
-          Justin San
+          San Justin
         </span>
       </Navbar.Brand>
 
-      <div className="flex md:order-2 items-center space-x-2 ">
+      <div className="flex md:order-2 items-center space-x-2">
         <ThemeToggle theme={theme} setTheme={setTheme} />
         <Navbar.Toggle />
       </div>
 
       <Navbar.Collapse>
-        {['projects','about','contact'].map(id => (
+        {navItems.map(({ label, href }) => (
           <Navbar.Link
-            key={id}
-            href={`#${id}`}
-            className="transition-colors duration-500 ease-in-out text-white dark:text-gray-300"
+            key={href}
+            href={href}
+            active={router.asPath === href}
+            className="
+              text-white dark:text-gray-300
+              transform transition-transform duration-200
+              hover:scale-105
+            "
           >
-            {id.charAt(0).toUpperCase()+id.slice(1)}
+            {label}
           </Navbar.Link>
         ))}
       </Navbar.Collapse>

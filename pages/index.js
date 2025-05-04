@@ -1,22 +1,28 @@
-// pages/index.js
 import SiteNav from '../components/Navbar'
 import Hero from '../components/Hero'
 import About from '../components/About'
 import Projects from '../components/Projects'
+import CurrentlyWorkingOn from '../components/CurrentlyWorkingOn'
 import Contact from '../components/Contact'
 
 export default function Home({ repos, theme, setTheme }) {
   return (
     <>
       {/* NAVBAR */}
+      <SiteNav theme={theme} setTheme={setTheme} />
+
       <div id="hero">
-        <SiteNav theme={theme} setTheme={setTheme} />
         <Hero />
       </div>
 
       {/* ABOUT */}
       <div id="about">
         <About />
+      </div>
+
+      {/* CURRENT WORK */}
+      <div id="current-work">
+        <CurrentlyWorkingOn />
       </div>
 
       {/* PROJECTS */}

@@ -2,20 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ← add this */
-
 @layer base {
-  /* Light mode defaults */
-  html {
-    @apply bg-light-sea-green-300 text-celeste-700;
-    scroll-behavior: smooth;
-  }
-  /* Dark mode when html has class "dark" */
-  html.dark {
-    @apply bg-gray-900 text-gray-100;
-  }
-
+  /* Global smooth color transitions */
   html, body {
     @apply transition-colors duration-500 ease-in-out;
+  }
+
+  /* Light mode defaults */
+  html {
+    /* very-light charcoal background, dark charcoal text */
+    @apply bg-charcoal-900 text-charcoal-500;
+    scroll-behavior: smooth;
+  }
+
+  /* Dark mode overrides */
+  html.dark {
+    @apply bg-gray-900 text-gray-100;
   }
 }
