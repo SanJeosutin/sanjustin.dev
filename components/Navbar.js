@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Navbar } from 'flowbite-react'
 import ThemeToggle from './ThemeToggle'
@@ -11,7 +10,6 @@ export default function SiteNav({ theme, setTheme }) {
     { label: 'Current Projects', href: '/#current-work' },
     { label: 'Github Projects',     href: '/#projects' },
     { label: 'Note',         href: '/note' },
-    { label: 'Contact',      href: '/#contact' },
   ]
 
   return (

@@ -4,7 +4,6 @@ import Hero from '../components/Hero'
 import About from '../components/About'
 import Projects from '../components/Projects'
 import CurrentProject from '../components/CurrentlyWorkingOn'
-import Contact from '../components/Contact'
 
 export default function Home({ repos, currentProjects, theme, setTheme }) {
   return (
@@ -25,10 +24,6 @@ export default function Home({ repos, currentProjects, theme, setTheme }) {
 
       <div id="projects">
         <Projects repos={repos} />
-      </div>
-
-      <div id="contact">
-        <Contact />
       </div>
     </>
   )

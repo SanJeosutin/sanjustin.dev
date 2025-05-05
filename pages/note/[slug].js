@@ -1,8 +1,17 @@
 import { useRouter } from 'next/router'
 import SiteNav from '../../components/Navbar'
+import { useSpring, animated, config as springConfig } from '@react-spring/web'
 
 export default function NoteDetail({ note, theme, setTheme }) {
   const router = useRouter()
+
+  // mount animation: fade in + slide up
+  const style = useSpring({
+    from: { opacity: 0, transform: 'translateY(20px)' },
+    to: { opacity: 1, transform: 'translateY(0)' },
+    config: springConfig.molasses,
+    delay: 200,
+  })
 
   if (!note) {
     return (
@@ -16,7 +25,10 @@ export default function NoteDetail({ note, theme, setTheme }) {
   return (
     <>
       <SiteNav theme={theme} setTheme={setTheme} />
-      <article className="prose lg:prose-lg dark:prose-invert py-16 px-4 max-w-4xl mx-auto">
+      <animated.article
+        style={style}
+        className="prose lg:prose-lg dark:prose-invert py-16 px-4 max-w-4xl mx-auto"
+      >
         <button
           onClick={() => router.back()}
           className="
@@ -42,7 +54,7 @@ export default function NoteDetail({ note, theme, setTheme }) {
           className="prose dark:prose-invert"
           dangerouslySetInnerHTML={{ __html: note.contentHtml }}
         />
-      </article>
+      </animated.article>
     </>
   )
 }

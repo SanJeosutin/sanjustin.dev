@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import '../styles/globals.css'
 import 'flowbite/dist/flowbite.css'
+import Footer from '../components/Footer'
 
 export default function App({ Component, pageProps }) {
   const [theme, setTheme] = useState('light')
@@ -21,10 +22,11 @@ export default function App({ Component, pageProps }) {
     document.documentElement.classList.add(theme)
     localStorage.setItem('theme', theme)
   }, [theme])
-  
+
   return (
     <div className="min-h-screen transition-colors duration-500 ease-in-out">
       <Component {...pageProps} theme={theme} setTheme={setTheme} />
+      <Footer />
     </div>
   )
 }
