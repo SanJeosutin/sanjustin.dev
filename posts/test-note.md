@@ -1,5 +1,5 @@
 ---
-title: "Test Blog!"
+title: "Test note!"
 date: "2025-05-05"
 ---
 # Markdown: Syntax

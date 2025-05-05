@@ -9,9 +9,9 @@ export default function SiteNav({ theme, setTheme }) {
   const navItems = [
     { label: 'Home',         href: '/#hero' },
     { label: 'About',        href: '/#about' },
-    { label: 'Projects',     href: '/#projects' },
-    { label: 'Blog',         href: '/blog' },
     { label: 'Current Work', href: '/#current-work' },
+    { label: 'Projects',     href: '/#projects' },
+    { label: 'Note',         href: '/note' },
     { label: 'Contact',      href: '/#contact' },
   ]
 
