@@ -74,11 +74,20 @@ export default function Notes({ notes, theme, setTheme }) {
 }
 
 export async function getStaticProps() {
-  const res = await fetch(`${process.env.API_BASE_URL}/api/notes`)
+  const baseUrl =
+    process.env.NODE_ENV === 'development'
+      ? process.env.API_BASE_URL
+      : `https://${process.env.VERCEL_URL}`
+
+  const res = await fetch(`${baseUrl}/api/notes`)
+  if (!res.ok) {
+    console.error('Notes fetch failed:', res.status, await res.text())
+    return { notFound: true }
+  }
   const notes = await res.json()
 
   return {
     props: { notes },
-    revalidate: 60, // regenerate at most once per minute
+    revalidate: 60,
   }
 }

@@ -60,19 +60,25 @@ export default function NoteDetail({ note, theme, setTheme }) {
 }
 
 export async function getStaticPaths() {
-  const res = await fetch(`${process.env.API_BASE_URL}/api/notes`)
-  const notes = await res.json()
-  const paths = notes.map(({ slug }) => ({ params: { slug } }))
-  return {
-    paths,
-    fallback: 'blocking',   // ← serve new slugs on demand
-  }
+  const baseUrl =
+    process.env.NODE_ENV === 'development'
+      ? process.env.API_BASE_URL
+      : `https://${process.env.VERCEL_URL}`
+
+  const res = await fetch(`${baseUrl}/api/notes`)
+  const notes = res.ok ? await res.json() : []
+  const paths = notes.map((n) => ({ params: { slug: n.slug } }))
+
+  return { paths, fallback: 'blocking' }
 }
 
 export async function getStaticProps({ params }) {
-  const res = await fetch(
-    `${process.env.API_BASE_URL}/api/notes/${params.slug}`
-  )
+  const baseUrl =
+    process.env.NODE_ENV === 'development'
+      ? process.env.API_BASE_URL
+      : `https://${process.env.VERCEL_URL}`
+
+  const res = await fetch(`${baseUrl}/api/notes/${params.slug}`)
   if (!res.ok) {
     return { notFound: true }
   }
