@@ -10,6 +10,7 @@ export default function SiteNav({ theme, setTheme }) {
     { label: 'Home',         href: '/#hero' },
     { label: 'About',        href: '/#about' },
     { label: 'Projects',     href: '/#projects' },
+    { label: 'Blog',         href: '/blog' },
     { label: 'Current Work', href: '/#current-work' },
     { label: 'Contact',      href: '/#contact' },
   ]
