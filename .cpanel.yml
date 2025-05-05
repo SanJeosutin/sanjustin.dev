@@ -1,10 +1,23 @@
 ---
 deployment:
-  # Ensure this file is named exactly “.cpanel.yml” in the repo root
   tasks:
-    # Install everything, including devDependencies (so patch-package is available)
-    - npm install
-    # Build your Next.js app (or your custom build step)
+    # 1. Where to deploy
+    - export DEPLOYPATH=/home/USERNAME/public_html
+
+    # 2. Install only production deps and skip postinstall hooks (patch-package, etc.)
+    - echo "Installing production npm packages (skipping scripts)…"
+    - npm install --production --ignore-scripts
+
+    # 3. Build your Next.js app
+    - echo "Building Next.js…"
     - npm run build
-    # Restart or start your app (adjust to your startup process)
-    - pm2 restart all --update-env
+
+    # 4. Export as static HTML
+    - echo "Exporting static HTML…"
+    - npm run export
+
+    # 5. Copy the output into public_html
+    - echo "Deploying to $DEPLOYPATH…"
+    - /bin/cp -a out/. $DEPLOYPATH/
+
+    - echo "✅ Deployment complete!"
