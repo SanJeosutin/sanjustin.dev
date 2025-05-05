@@ -3,7 +3,7 @@ import SiteNav from '../components/Navbar'
 import Hero from '../components/Hero'
 import About from '../components/About'
 import Projects from '../components/Projects'
-import CurrentlyWorkingOn from '../components/CurrentlyWorkingOn'
+import CurrentProject from '../components/CurrentlyWorkingOn'
 import Contact from '../components/Contact'
 
 export default function Home({ repos, currentProjects, theme, setTheme }) {
@@ -20,7 +20,7 @@ export default function Home({ repos, currentProjects, theme, setTheme }) {
       </div>
 
       <div id="current-work">
-        <CurrentlyWorkingOn projects={currentProjects} />
+        <CurrentProject projects={currentProjects} />
       </div>
 
       <div id="projects">

@@ -35,7 +35,7 @@ export default function CurrentlyWorkingOn({ projects }) {
   return (
     <section id="current-work" ref={sectionRef} className="py-16 px-4 max-w-6xl mx-auto">
       <h2 className="text-3xl font-bold mb-8 text-charcoal-700 dark:text-white">
-        Currently Working On
+        Current Projects
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">

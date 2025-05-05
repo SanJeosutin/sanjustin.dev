@@ -1,4 +1,3 @@
-// pages/work/[slug].js
 import { useRouter } from 'next/router'
 import SiteNav from '../../components/Navbar'
 
