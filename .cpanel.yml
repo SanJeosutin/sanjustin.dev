@@ -1,23 +1,23 @@
 ---
 deployment:
   tasks:
-    # 1. Where to deploy on your cPanel account
+    # 1. Where to deploy
     - export DEPLOYPATH=/home/USERNAME/public_html
 
-    # 2. Install dependencies
-    - echo "Installing npm packages…"
-    - npm install
+    # 2. Install only production deps and skip postinstall hooks (patch-package, etc.)
+    - echo "Installing production npm packages (skipping scripts)…"
+    - npm install --production --ignore-scripts
 
     # 3. Build your Next.js app
     - echo "Building Next.js…"
     - npm run build
 
-    # 4. Export as static HTML (requires "export" script in package.json)
+    # 4. Export as static HTML
     - echo "Exporting static HTML…"
     - npm run export
 
-    # 5. Copy all generated files into public_html
+    # 5. Copy the output into public_html
     - echo "Deploying to $DEPLOYPATH…"
     - /bin/cp -a out/. $DEPLOYPATH/
 
-    - echo "Deployment complete!"
+    - echo "✅ Deployment complete!"
