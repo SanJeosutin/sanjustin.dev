@@ -104,7 +104,11 @@ export default function Hero() {
                 .getElementById('about')
                 ?.scrollIntoView({ behavior: 'smooth' })
             }}
-            className=" mt-6 inline-block px-6 py-3 rounded-lg shadow-md bg-persian_green-500 hover:bg-persian_green-600 text-white font-medium transition-colors duration-300 ease-in-outdark:bg-charcoal-700 dark:hover:bg-charcoal-600 dark:text-gray-100">
+            className="
+            mt-6 inline-block px-6 py-3 rounded-lg shadow-md 
+            bg-persian_green-500 hover:bg-persian_green-600 text-white 
+            font-medium transition-colors duration-300 ease-in-out 
+            dark:bg-charcoal-700 dark:hover:bg-charcoal-600 dark:text-gray-100">
             Learn More
           </a>
         </animated.div>
