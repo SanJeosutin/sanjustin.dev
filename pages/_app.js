@@ -24,8 +24,11 @@ export default function App({ Component, pageProps }) {
   }, [theme])
 
   return (
-    <div className="min-h-screen transition-colors duration-500 ease-in-out">
-      <Component {...pageProps} theme={theme} setTheme={setTheme} />
+    <div className="flex flex-col min-h-screen transition-colors duration-500 ease-in-out">
+      {/* Make this take up all remaining space */}
+      <main className="flex-1">
+        <Component {...pageProps} theme={theme} setTheme={setTheme} />
+      </main>
       <Footer />
     </div>
   )
