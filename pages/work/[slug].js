@@ -1,37 +1,48 @@
-import { useRouter } from 'next/router'
-import SiteNav from '../../components/Navbar'
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { useSpring, animated, config as springConfig } from '@react-spring/web';
+import SiteNav from '../../components/Navbar';
 
 export default function ProjectDetail({ project, theme, setTheme }) {
-  const router = useRouter()
+  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
 
-  // If getStaticProps failed for some reason
+  useEffect(() => setMounted(true), []);
+
+  // Fade-in + slide-up animation
+  const animation = useSpring({
+    opacity: mounted ? 1 : 0,
+    transform: mounted ? 'translateY(0px)' : 'translateY(20px)',
+    config: springConfig.gentle
+  });
+
   if (!project) {
     return (
       <>
         <SiteNav theme={theme} setTheme={setTheme} />
         <div className="p-16 text-center">Project not found</div>
       </>
-    )
+    );
   }
 
   return (
     <>
       <SiteNav theme={theme} setTheme={setTheme} />
-      <section className="py-16 px-4 max-w-6xl mx-auto">
+      <animated.section
+        className="py-16 px-4 max-w-6xl mx-auto"
+        style={animation}
+      >
         <button
           onClick={() => router.back()}
-          className="
-            inline-block mb-6 text-persian_green-500
-            dark:text-saffron-400 hover:underline
-            transition-colors duration-200
-          "
+          className="inline-block mb-6 text-persian_green-500 dark:text-saffron-400 hover:underline transition-colors duration-200"
         >
           ← Back
         </button>
+
         <h1 className="text-4xl font-bold mb-4 text-charcoal-700 dark:text-white">
           {project.name}
         </h1>
-        {/* If backend returned contentHtml, render it */}
+
         {project.contentHtml ? (
           <div
             className="prose lg:prose-xl dark:prose-invert"
@@ -42,42 +53,38 @@ export default function ProjectDetail({ project, theme, setTheme }) {
             {project.details}
           </p>
         )}
+
         <a
           href={project.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="
-            inline-block px-6 py-3 rounded bg-sandy_brown-500 text-white
-            hover:bg-sandy_brown-600 transition-colors duration-300
-          "
+          className="inline-block px-6 py-3 rounded bg-sandy_brown-500 text-white hover:bg-sandy_brown-600 transition-colors duration-300"
         >
           View on GitHub
         </a>
-      </section>
+      </animated.section>
     </>
-  )
+  );
 }
 
-export async function getStaticPaths() {
-  const res = await fetch(`${process.env.API_BASE_URL}/api/current-projects`)
-  const projects = await res.json()
-  const paths = projects.map((p) => ({ params: { slug: p.slug } }))
-  return {
-    paths,
-    fallback: false,
-  }
-}
+// ✅ Server-side props
+export async function getServerSideProps({ params }) {
+  try {
+    const res = await fetch(
+      `https://apisanjustin.vercel.app/api/current-projects/${params.slug}`
+    );
+    if (!res.ok) {
+      return { notFound: true };
+    }
 
-export async function getStaticProps({ params }) {
-  const res = await fetch(
-    `${process.env.API_BASE_URL}/api/current-projects/${params.slug}`
-  )
-  if (!res.ok) {
-    return { notFound: true }
-  }
-  const project = await res.json()
-  return {
-    props: { project },
-    revalidate: 60,
+    const project = await res.json();
+    return {
+      props: { project }
+    };
+  } catch (e) {
+    console.error('[getServerSideProps] Project fetch error:', e);
+    return {
+      props: { project: null }
+    };
   }
 }
