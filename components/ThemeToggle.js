@@ -5,7 +5,7 @@ export default function ThemeToggle({ theme, setTheme }) {
     <button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       aria-label="Toggle Theme"
-      className="p-2 rounded  hover:bg-light-sea-green-600 dark:hover:bg-gray-700 transition"
+      className="p-2 rounded  hover:bg-charcoal-600 dark:hover:bg-gray-700 transition"
     >
       {theme === 'dark' ? (
         <SunIcon className="h-6 w-6 text-yellow-400" />

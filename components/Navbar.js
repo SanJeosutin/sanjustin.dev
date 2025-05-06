@@ -31,7 +31,9 @@ export default function SiteNav({ theme, setTheme }) {
 
       <div className="flex md:order-2 items-center space-x-2">
         <ThemeToggle theme={theme} setTheme={setTheme} />
-        <Navbar.Toggle />
+        <Navbar.Toggle
+        className="text-white hover:bg-charcoal-600"
+        />
       </div>
 
       <Navbar.Collapse>
@@ -41,7 +43,7 @@ export default function SiteNav({ theme, setTheme }) {
             href={href}
             active={router.asPath === href}
             className="
-              text-white dark:text-gray-300
+              text-white hover:bg-charcoal-600 dark:text-gray-300
               transform transition-transform duration-200
               hover:scale-105
             "
