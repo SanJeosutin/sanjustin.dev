@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useSpring, animated, config as springConfig } from '@react-spring/web'
+import ShadowContainer from '../../components/ShadowContainer'
 import SiteNav from '../../components/Navbar'
 
 // Pre-render note pages at build time
@@ -87,10 +88,14 @@ export default function NotePage({ note, theme, setTheme }) {
           </time>
         </header>
 
-        <div
-          className="prose lg:prose-xl dark:prose-invert"
-          dangerouslySetInnerHTML={{ __html: note.contentHtml }}
-        />
+        <ShadowContainer
+          styleSheets={['https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css']}
+        >
+          <div
+            className="container"
+            dangerouslySetInnerHTML={{ __html: note.contentHtml }}
+          />
+        </ShadowContainer>
       </animated.section>
     </>
   )
