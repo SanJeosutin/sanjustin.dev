@@ -25,7 +25,6 @@ export default function App({ Component, pageProps }) {
 
   return (
     <div className="flex flex-col min-h-screen transition-colors duration-500 ease-in-out">
-      {/* Make this take up all remaining space */}
       <main className="flex-1">
         <Component {...pageProps} theme={theme} setTheme={setTheme} />
       </main>

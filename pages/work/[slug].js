@@ -67,7 +67,6 @@ export default function ProjectDetail({ project, theme, setTheme }) {
   );
 }
 
-// ✅ Server-side props
 export async function getServerSideProps({ params }) {
   try {
     const res = await fetch(

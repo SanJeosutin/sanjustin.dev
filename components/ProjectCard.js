@@ -1,4 +1,3 @@
-// components/ProjectCard.js
 import { useSpring, animated } from '@react-spring/web'
 import { Card } from 'flowbite-react'
 import { StarIcon } from '@heroicons/react/24/solid'

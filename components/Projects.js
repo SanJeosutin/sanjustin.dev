@@ -1,4 +1,3 @@
-// components/Projects.js
 import { useState, useRef, useEffect } from 'react'
 import { useTrail, animated } from '@react-spring/web'
 import ProjectCard from './ProjectCard'

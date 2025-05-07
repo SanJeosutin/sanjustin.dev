@@ -58,7 +58,7 @@ export default function Notes({ notes, theme, setTheme }) {
   );
 }
 
-// ✅ Fetch data at request-time to avoid build-time errors
+// Fetch data at request-time to avoid build-time errors
 export async function getServerSideProps() {
   try {
     const res = await fetch(`https://apisanjustin.vercel.app/api/notes`);

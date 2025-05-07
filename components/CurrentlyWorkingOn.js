@@ -27,7 +27,6 @@ export default function CurrentlyWorkingOn({ projects }) {
     return () => observer.disconnect()
   }, [])
 
-  // Now safe to call useTrail with items.length (a number ≥ 0)
   const trail = useTrail(items.length, {
     from: { opacity: 0, y: 20 },
     to:   { opacity: show ? 1 : 0, y: show ? 0 : 20 },

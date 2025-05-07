@@ -1,4 +1,3 @@
-// pages/index.js
 import SiteNav from '../components/Navbar'
 import Hero from '../components/Hero'
 import About from '../components/About'
@@ -30,11 +29,9 @@ export default function Home({ repos, currentProjects, theme, setTheme }) {
 }
 
 export async function getStaticProps() {
-  // GitHub repos
   const resRepos = await fetch(`${process.env.API_BASE_URL}/api/projects`)
   const repos = await resRepos.json()
 
-  // Currently Working On
   const resCW = await fetch(`${process.env.API_BASE_URL}/api/current-projects`)
   const currentProjects = await resCW.json()
 

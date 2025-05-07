@@ -1,60 +1,97 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useSpring, animated, config as springConfig } from '@react-spring/web'
+import SiteNav from '../../components/Navbar'
 
-// ✅ Pre-render note pages at build time
+// Pre-render note pages at build time
 export async function getStaticPaths() {
   try {
-    const res = await fetch('https://apisanjustin.vercel.app/api/notes');
-    const notes = await res.json();
-
-    if (!Array.isArray(notes)) throw new Error('Invalid notes response');
-
-    const paths = notes.map(note => ({
-      params: { slug: note.slug }
-    }));
-
-    return {
-      paths,
-      fallback: 'blocking' // Generate missing pages at request time
-    };
+    const res = await fetch('https://apisanjustin.vercel.app/api/notes')
+    const notes = await res.json()
+    if (!Array.isArray(notes)) throw new Error('Invalid notes response')
+    const paths = notes.map((note) => ({ params: { slug: note.slug } }))
+    return { paths, fallback: 'blocking' }
   } catch (e) {
-    console.error('[getStaticPaths] Error:', e);
-    return {
-      paths: [],
-      fallback: 'blocking'
-    };
+    console.error('[getStaticPaths] Error:', e)
+    return { paths: [], fallback: 'blocking' }
   }
 }
 
-// ✅ Load a specific note’s data
+// Load a specific note’s data
 export async function getStaticProps({ params }) {
   try {
-    const res = await fetch(`https://apisanjustin.vercel.app/api/notes/${params.slug}`);
-    const note = await res.json();
-
-    if (!note || note.error) {
-      return { notFound: true };
-    }
-
-    return {
-      props: { note },
-      revalidate: 60 // Optional: revalidate after 60 seconds
-    };
+    const res = await fetch(
+      `https://apisanjustin.vercel.app/api/notes/${params.slug}`
+    )
+    const note = await res.json()
+    if (!note || note.error) return { notFound: true }
+    return { props: { note }, revalidate: 60 }
   } catch (e) {
-    console.error('[getStaticProps] Error:', e);
-    return { notFound: true };
+    console.error('[getStaticProps] Error:', e)
+    return { notFound: true }
   }
 }
 
-// ✅ Page component
-export default function NotePage({ note }) {
-  if (!note) return <p>Note not found.</p>;
+export default function NotePage({ note, theme, setTheme }) {
+  const router = useRouter()
+  const [mounted, setMounted] = useState(false)
+
+  // trigger mount animation
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // fade-in + slide-up
+  const animation = useSpring({
+    opacity: mounted ? 1 : 0,
+    transform: mounted ? 'translateY(0px)' : 'translateY(20px)',
+    config: springConfig.gentle,
+  })
+
+  if (!note) {
+    return (
+      <>
+        <SiteNav theme={theme} setTheme={setTheme} />
+        <div className="p-16 text-center">Note not found.</div>
+      </>
+    )
+  }
 
   return (
-    <main style={{ maxWidth: '768px', margin: '2rem auto', padding: '0 1rem' }}>
-      <h1>{note.title}</h1>
-      <p><em>{note.date}</em></p>
-      <hr />
-      <div dangerouslySetInnerHTML={{ __html: note.contentHtml }} />
-    </main>
-  );
+    <>
+      <SiteNav theme={theme} setTheme={setTheme} />
+      <animated.section
+        className="py-16 px-4 max-w-6xl mx-auto"
+        style={animation}
+      >
+        <button
+          onClick={() => router.back()}
+          className="
+            inline-block mb-6 text-persian_green-500 dark:text-saffron-400
+            hover:underline transition-colors duration-200
+          "
+        >
+          ← Back
+        </button>
+
+        <header className="mb-12">
+          <h1 className="text-3xl sm:text-4xl font-bold text-charcoal-700 dark:text-white mb-2">
+            {note.title}
+          </h1>
+          <time className="text-sm text-gray-500 dark:text-gray-400">
+            {new Date(note.date).toLocaleDateString(undefined, {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </time>
+        </header>
+
+        <div
+          className="prose lg:prose-xl dark:prose-invert"
+          dangerouslySetInnerHTML={{ __html: note.contentHtml }}
+        />
+      </animated.section>
+    </>
+  )
 }
