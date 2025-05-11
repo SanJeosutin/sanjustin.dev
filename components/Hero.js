@@ -34,7 +34,7 @@ export default function Hero() {
     from: { opacity: 0, transform: 'translateX(-100px)' },
     to: { opacity: 1, transform: 'translateX(0px)' },
     config: springConfig.stiff,
-    delay: 200,
+    delay: 50,
   })
 
   // fly-in from right for subtitle
@@ -42,7 +42,7 @@ export default function Hero() {
     from: { opacity: 0, transform: 'translateX(100px)' },
     to: { opacity: 1, transform: 'translateX(0px)' },
     config: springConfig.stiff,
-    delay: 400,
+    delay: 600,
   })
 
   // delay = subtitle delay + (per-word stagger ≈ 50ms * words.length)
@@ -50,7 +50,7 @@ export default function Hero() {
     from: { opacity: 0, transform: 'translateY(10px)' },
     to: { opacity: 1, transform: 'translateY(0px)' },
     config: springConfig.gentle,
-    delay: 600 + subtitleWords.length * 126,
+    delay: (800 + subtitleWords.length) * 126,
   })
 
 
@@ -81,37 +81,31 @@ export default function Hero() {
       {/* Animated text overlay */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center">
         <h1 className="flex flex-wrap justify-center text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
-          {headingTrail.map((style, i) => (
-            <animated.span key={i} style={style}>
-              {headingChars[i]}
-            </animated.span>
-          ))}
+          {headingTrail.map((style, i) => {
+            const char = headingChars[i]
+            return (
+              <animated.span
+                key={i}
+                style={style}
+                className="inline-block"
+              >
+                {char === ' ' ? '\u00A0' : char}
+              </animated.span>
+            )
+          })}
         </h1>
+
         <p className="flex flex-wrap justify-center text-lg sm:text-xl text-white max-w-2xl mb-6 drop-shadow-md">
           {subtitleTrail.map((style, i) => (
-            <animated.span key={i} style={style} className="inline-block mr-1">
+            <animated.span
+              key={i}
+              style={style}
+              className="inline-block mr-1"
+            >
               {subtitleWords[i]}
             </animated.span>
           ))}
         </p>
-
-        {/* “Learn More” button appears after text */}
-        <animated.div style={buttonSpring}>
-          <a
-            href="#about"
-            onClick={() => {
-              document
-                .getElementById('about')
-                ?.scrollIntoView({ behavior: 'smooth' })
-            }}
-            className="
-            mt-6 inline-block px-6 py-3 rounded-lg shadow-md 
-            bg-persian_green-500 hover:bg-persian_green-600 text-white 
-            font-medium transition-colors duration-300 ease-in-out 
-            dark:bg-charcoal-700 dark:hover:bg-charcoal-600 dark:text-gray-100">
-            Learn More
-          </a>
-        </animated.div>
       </div>
     </section>
   )
