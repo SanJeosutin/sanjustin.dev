@@ -20,7 +20,7 @@ export default function SiteNav({ theme, setTheme }) {
 
   const navItems = [
     { label: 'About', href: '/#about' },
-    { label: 'Current Projects', href: '/#current-work' },
+    { label: 'Current Projects', href: '/#current-projects' },
     { label: 'Github Projects', href: '/#projects' },
     { label: 'Notes', href: '/note' },
   ]

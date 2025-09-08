@@ -1,29 +1,61 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { useSpring, animated, config as springConfig } from '@react-spring/web';
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useSpring, animated, config as springConfig } from '@react-spring/web'
 import ShadowContainer from '../../components/ShadowContainer'
-import SiteNav from '../../components/Navbar';
+import SiteNav from '../../components/Navbar'
 
-export default function ProjectDetail({ project, theme, setTheme }) {
-  const router = useRouter();
-  const [mounted, setMounted] = useState(false);
+// Pre-render note pages at build time
+export async function getStaticPaths() {
+  try {
+    const res = await fetch('https://apisanjustin.vercel.app/api/current-projects')
+    const notes = await res.json()
+    if (!Array.isArray(notes)) throw new Error('Invalid notes response')
+    const paths = notes.map((note) => ({ params: { slug: note.slug } }))
+    return { paths, fallback: 'blocking' }
+  } catch (e) {
+    console.error('[getStaticPaths] Error:', e)
+    return { paths: [], fallback: 'blocking' }
+  }
+}
 
-  useEffect(() => setMounted(true), []);
+// Load a specific note’s data
+export async function getStaticProps({ params }) {
+  try {
+    const res = await fetch(
+      `https://apisanjustin.vercel.app/api/current-projects/${params.slug}`
+    )
+    const note = await res.json()
+    if (!note || note.error) return { notFound: true }
+    return { props: { note }, revalidate: 60 }
+  } catch (e) {
+    console.error('[getStaticProps] Error:', e)
+    return { notFound: true }
+  }
+}
 
-  // Fade-in + slide-up animation
+export default function NotePage({ note, theme, setTheme }) {
+  const router = useRouter()
+  const [mounted, setMounted] = useState(false)
+
+  // trigger mount animation
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // fade-in + slide-up
   const animation = useSpring({
     opacity: mounted ? 1 : 0,
     transform: mounted ? 'translateY(0px)' : 'translateY(20px)',
-    config: springConfig.gentle
-  });
+    config: springConfig.gentle,
+  })
 
-  if (!project) {
+  if (!note) {
     return (
       <>
         <SiteNav theme={theme} setTheme={setTheme} />
-        <div className="p-16 text-center">Project not found</div>
+        <div className="p-16 text-center">Note not found.</div>
       </>
-    );
+    )
   }
 
   return (
@@ -35,60 +67,36 @@ export default function ProjectDetail({ project, theme, setTheme }) {
       >
         <button
           onClick={() => router.back()}
-          className="inline-block mb-6 text-persian_green-500 dark:text-saffron-400 hover:underline transition-colors duration-200"
+          className="
+            inline-block mb-6 text-persian_green-500 dark:text-saffron-400
+            hover:underline transition-colors duration-200
+          "
         >
           ← Back
         </button>
 
-        <h1 className="text-4xl font-bold mb-4 text-charcoal-700 dark:text-white">
-          {project.name}
-        </h1>
+        <header className="mb-12">
+          <h1 className="text-3xl sm:text-4xl font-bold text-charcoal-700 dark:text-white mb-2">
+            {note.title}
+          </h1>
+          <time className="text-sm text-gray-500 dark:text-gray-400">
+            {new Date(note.date).toLocaleDateString(undefined, {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </time>
+        </header>
 
-        {project.contentHtml ? (
-          <ShadowContainer
-            styleSheets={['https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css']}
-          >
-            <div
-              className="container"
-              dangerouslySetInnerHTML={{ __html: project.contentHtml }}
-            />
-          </ShadowContainer>
-        ) : (
-          <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
-            {project.details}
-          </p>
-        )}
-
-        <a
-          href={project.githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block px-6 py-3 rounded bg-sandy_brown-500 text-white hover:bg-sandy_brown-600 transition-colors duration-300"
+        <ShadowContainer
+          styleSheets={['https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css']}
         >
-          View on GitHub
-        </a>
+          <div
+            className="container"
+            dangerouslySetInnerHTML={{ __html: note.contentHtml }}
+          />
+        </ShadowContainer>
       </animated.section>
     </>
-  );
-}
-
-export async function getServerSideProps({ params }) {
-  try {
-    const res = await fetch(
-      `https://apisanjustin.vercel.app/api/current-projects/${params.slug}`
-    );
-    if (!res.ok) {
-      return { notFound: true };
-    }
-
-    const project = await res.json();
-    return {
-      props: { project }
-    };
-  } catch (e) {
-    console.error('[getServerSideProps] Project fetch error:', e);
-    return {
-      props: { project: null }
-    };
-  }
+  )
 }

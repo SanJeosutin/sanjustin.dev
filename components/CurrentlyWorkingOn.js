@@ -36,7 +36,7 @@ export default function CurrentlyWorkingOn({ projects }) {
 
   return (
     <section
-      id="current-work"
+      id="current-projects"
       ref={sectionRef}
       className="py-16 px-4 max-w-6xl mx-auto"
     >
