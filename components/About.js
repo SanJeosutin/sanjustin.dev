@@ -44,13 +44,13 @@ export default function About() {
         About Me
       </h2>
       <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
-      A Melbourne-based web developer, photographer, and nature enthusiast with a Bachelor of Computer Science from Swinburne University of Technology. Combines creative problem-solving with elegant code — whether refining an old projects or contributing to real-world projects.
+      A Melbourne-based web developer, photographer, and nature enthusiast with a Bachelor of Computer Science from Swinburne University of Technology. Combines creative problem-solving with elegant code, whether refining an old projects or contributing to real-world projects.
       </p>
       <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
       Achieved High Distinctions in Advanced Web Development (COS30020), Creating Web Applications (COS10011), and Software Engineering Project A & B (SWE40001 & SWE40002) during the degree program.
       </p>
       <p className="text-lg text-gray-700 dark:text-gray-300">
-      Demonstrates a strong commitment to mastering modern web technologies—including PHP, HTML5, CSS3, JavaScript, MySQL, and AWS—and to developing robust, user-focused applications. When not coding, likely to be found behind the camera, exploring Melbourne's parks, or engaging with the latest indie games.
+      Demonstrates a strong commitment to mastering modern web technologies—including PHP, HTML5, CSS3, JavaScript, MySQL, AWS and to developing robust, user-focused applications. When not coding, likely to be found behind the camera, exploring Melbourne's parks, or engaging with the latest indie games.
       </p>
     </animated.section>
   )
