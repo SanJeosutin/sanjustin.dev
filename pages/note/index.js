@@ -1,3 +1,4 @@
+import { fetchList } from '../../lib/api'
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import SiteNav from '../../components/Navbar';
@@ -41,7 +42,7 @@ export default function Notes({ notes, theme, setTheme }) {
             const { slug, title, date } = notes[i];
             return (
               <animated.div key={slug} style={style} className="w-full">
-                <Link href={`/note/${slug}`} legacyBehavior>
+                <Link href={`/note/${encodeURIComponent(slug)}`} legacyBehavior>
                   <a className="block p-6 border-2 border-persian_green-300 rounded shadow hover:border-persian_green-500 transition-colors duration-200 bg-white dark:bg-gray-800">
                     <h2 className="text-2xl font-semibold text-charcoal-700 dark:text-white">
                       {title}
@@ -61,8 +62,7 @@ export default function Notes({ notes, theme, setTheme }) {
 // Fetch data at request-time to avoid build-time errors
 export async function getServerSideProps() {
   try {
-    const res = await fetch(`https://apisanjustin.vercel.app/api/notes`);
-    const notes = await res.json();
+    const notes = await fetchList('notes');
 
     return {
       props: { notes: Array.isArray(notes) ? notes : [] }

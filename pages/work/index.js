@@ -1,3 +1,4 @@
+import { fetchList } from '../../lib/api'
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import SiteNav from '../../components/Navbar';
@@ -38,13 +39,13 @@ export default function CurrProjects({ currProjects, theme, setTheme }) {
 
         <div className="grid grid-cols-1 gap-6">
           {trail.map((style, i) => {
-            const { slug, title, date } = currProjects[i];
+            const { slug, name, title, date } = currProjects[i];
             return (
               <animated.div key={slug} style={style} className="w-full">
-                <Link href={`/work/${slug}`} legacyBehavior>
+                <Link href={`/work/${encodeURIComponent(slug)}`} legacyBehavior>
                   <a className="block p-6 border-2 border-persian_green-300 rounded shadow hover:border-persian_green-500 transition-colors duration-200 bg-white dark:bg-gray-800">
                     <h2 className="text-2xl font-semibold text-charcoal-700 dark:text-white">
-                      {title}
+                      {name || title}
                     </h2>
                     <time className="text-gray-500 dark:text-gray-400">{date}</time>
                   </a>
@@ -61,8 +62,7 @@ export default function CurrProjects({ currProjects, theme, setTheme }) {
 // Fetch data at request-time to avoid build-time errors
 export async function getServerSideProps() {
   try {
-    const res = await fetch(`https://apisanjustin.vercel.app/api/current-projects`);
-    const currProjects = await res.json();
+    const currProjects = await fetchList('current-projects');
 
     return {
       props: { currProjects: Array.isArray(currProjects) ? currProjects : [] }

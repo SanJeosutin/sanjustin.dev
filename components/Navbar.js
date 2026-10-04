@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useSpring, animated, config } from '@react-spring/web'
+import { useState, useRef, useEffect, useId } from 'react'
+import { useSpring, animated } from '@react-spring/web'
 import { useRouter } from 'next/router'
 import { Navbar } from 'flowbite-react'
 import ThemeToggle from './ThemeToggle'
@@ -7,11 +7,26 @@ import ThemeToggle from './ThemeToggle'
 export default function SiteNav({ theme, setTheme }) {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
+  const [menuHeight, setMenuHeight] = useState(0)
+  const menuRef = useRef(null)
+  const menuId = useId()
+
+  useEffect(() => {
+    const menu = menuRef.current
+    const measure = () => setMenuHeight(menu.scrollHeight)
+    measure()
+    if (typeof ResizeObserver === 'undefined') return
+    const observer = new ResizeObserver(measure)
+    observer.observe(menu)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => { setIsOpen(false) }, [router.asPath])
 
   const springStyles = useSpring({
     from: { height: 0, opacity: 0, transform: 'scaleY(0.95)' },
     to: {
-      height: isOpen ? 'auto' : 0,
+      height: isOpen ? menuHeight : 0,
       opacity: isOpen ? 1 : 0,
       transform: isOpen ? 'scaleY(1)' : 'scaleY(0.95)',
     },
@@ -46,18 +61,26 @@ export default function SiteNav({ theme, setTheme }) {
         <ThemeToggle theme={theme} setTheme={setTheme} />
         <Navbar.Toggle
           className="text-white hover:bg-charcoal-600"
+          aria-expanded={isOpen}
+          aria-controls={menuId}
           onClick={() => setIsOpen((o) => !o)}
         />
       </div>
 
       {/* mobile drawer */}
-      <animated.ul
+      <animated.div
+        id={menuId}
+        aria-hidden={!isOpen}
+        inert={isOpen ? undefined : ''}
         style={springStyles}
         className="w-full overflow-hidden md:hidden origin-top list-none m-0 p-0"
       >
-        {navItems.map(({ label, href }) => (
-          <div key={href}>
+        <ul ref={menuRef} className="list-none m-0 p-0">
+          {navItems.map(({ label, href }) => (
             <Navbar.Link
+              key={href}
+              tabIndex={isOpen ? undefined : -1}
+              onClick={() => setIsOpen(false)}
               href={href}
               active={router.asPath === href}
               className="
@@ -67,11 +90,11 @@ export default function SiteNav({ theme, setTheme }) {
             >
               {label}
             </Navbar.Link>
-          </div>
-        ))}
-      </animated.ul>
+          ))}
+        </ul>
+      </animated.div>
 
-      <Navbar.Collapse>
+      <Navbar.Collapse className="hidden md:block">
         {navItems.map(({ label, href }) => (
           <Navbar.Link
             key={href}

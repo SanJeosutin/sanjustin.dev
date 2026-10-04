@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react'
 import ReactShadow from 'react-shadow'
 
 export default function ShadowContainer({ children, styleSheets = [] }) {
+  const styleSheetKey = JSON.stringify(styleSheets)
   const [cssText, setCssText] = useState('')
 
   useEffect(() => {
-    if (styleSheets.length === 0) return
+    let active = true
+    const urls = JSON.parse(styleSheetKey)
+    setCssText('')
+    if (urls.length === 0) return
+
     Promise.all(
-      styleSheets.map((href) =>
+      urls.map((href) =>
         fetch(href).then((r) => {
           if (!r.ok) throw new Error(`Failed to load CSS: ${href}`)
           return r.text()
@@ -15,12 +20,13 @@ export default function ShadowContainer({ children, styleSheets = [] }) {
       )
     )
       .then((arr) => {
-        setCssText(arr.join('\n'))
+        if (active) setCssText(arr.join('\n'))
       })
       .catch((err) => {
-        console.error('ShadowContainer CSS load error:', err)
+        if (active) console.error('ShadowContainer CSS load error:', err)
       })
-  }, [styleSheets])
+    return () => { active = false }
+  }, [styleSheetKey])
 
   return (
     <ReactShadow.div>

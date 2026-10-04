@@ -80,7 +80,7 @@ export default function Hero() {
 
       {/* Animated text overlay */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center">
-        <h1 className="flex flex-wrap justify-center text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
+        <h1 aria-label={headingText} className="flex flex-wrap justify-center text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
           {headingTrail.map((style, i) => {
             const char = headingChars[i]
             return (

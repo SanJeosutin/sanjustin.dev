@@ -18,6 +18,7 @@ export default function Footer() {
         <div className="flex space-x-4">
           <a
             href="https://github.com/SanJeosutin"
+            aria-label="GitHub"
             target="_blank"
             rel="noopener noreferrer"
             className="text-charcoal-700 dark:text-gray-400 hover:text-persian_green-500 dark:hover:text-persian_green-400 transition-colors duration-200 text-sm"
@@ -26,6 +27,7 @@ export default function Footer() {
           </a>
           <a
             href="https://linkedin.com/in/justinsan"
+            aria-label="LinkedIn"
             target="_blank"
             rel="noopener noreferrer"
             className="text-charcoal-700 dark:text-gray-400 hover:text-persian_green-500 dark:hover:text-persian_green-400 transition-colors duration-200 text-sm"
@@ -34,6 +36,7 @@ export default function Footer() {
           </a>
           <a
             href="https://www.instagram.com/sanjeosutin/"
+            aria-label="Instagram"
             target="_blank"
             rel="noopener noreferrer"
             className="text-charcoal-700 dark:text-gray-400 hover:text-persian_green-500 dark:hover:text-persian_green-400 transition-colors duration-200 text-sm"
@@ -42,6 +45,7 @@ export default function Footer() {
           </a>
           <a
             href="mailto:contact@sanjustin.dev"
+            aria-label="Email"
             className="text-charcoal-700 dark:text-gray-400 hover:text-persian_green-500 dark:hover:text-persian_green-400 transition-colors duration-200 text-sm"
           >
              <HiOutlineMail className="inline-block w-5 h-5" />

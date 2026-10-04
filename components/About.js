@@ -44,13 +44,13 @@ export default function About() {
         About Me
       </h2>
       <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
-      A Melbourne-based web developer, photographer, and nature enthusiast with a Bachelor of Computer Science from Swinburne University of Technology. Combines creative problem-solving with elegant code, whether refining an old projects or contributing to real-world projects.
+      I’m a Melbourne-based full-stack developer who builds practical software that makes everyday work easier. My projects range from internal dashboards and inventory tools to barcode workflows, document automation, and customer-facing websites.
       </p>
       <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
-      Achieved High Distinctions in Advanced Web Development (COS30020), Creating Web Applications (COS10011), and Software Engineering Project A & B (SWE40001 & SWE40002) during the degree program.
+      I hold a Bachelor of Computer Science from Swinburne University of Technology, where I earned High Distinctions in web development and software engineering projects. I work with Python, Node.js, React, Next.js, PHP, SQL databases, and AWS, choosing technologies to suit the problem.
       </p>
       <p className="text-lg text-gray-700 dark:text-gray-300">
-      Demonstrates a strong commitment to mastering modern web technologies—including PHP, HTML5, CSS3, JavaScript, MySQL, AWS and to developing robust, user-focused applications. When not coding, likely to be found behind the camera, exploring Melbourne's parks, or engaging with the latest indie games.
+      Whether freelancing or working alongside an operations team, I take projects from initial requirements through deployment
       </p>
     </animated.section>
   )

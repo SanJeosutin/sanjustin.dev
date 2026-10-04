@@ -3,10 +3,16 @@ import { useTrail, animated } from '@react-spring/web'
 import { Card } from 'flowbite-react'
 import Link from 'next/link'
 
+const PROJECTS_PER_BATCH = 4
+
 export default function CurrentlyWorkingOn({ projects }) {
   // Ensure `items` is always an array
-  const items = Array.isArray(projects) ? projects : []
+  const items = Array.isArray(projects)
+    ? projects.filter(project => project && typeof project.slug === 'string' && project.slug.trim().length > 0)
+    : []
 
+  const [visibleCount, setVisibleCount] = useState(PROJECTS_PER_BATCH)
+  const visibleProjects = items.slice(0, visibleCount)
   const [show, setShow] = useState(false)
   const sectionRef = useRef(null)
 
@@ -27,7 +33,7 @@ export default function CurrentlyWorkingOn({ projects }) {
     return () => observer.disconnect()
   }, [])
 
-  const trail = useTrail(items.length, {
+  const trail = useTrail(visibleProjects.length, {
     from: { opacity: 0, y: 20 },
     to:   { opacity: show ? 1 : 0, y: show ? 0 : 20 },
     config: { mass: 1, tension: 200, friction: 20 },
@@ -44,9 +50,9 @@ export default function CurrentlyWorkingOn({ projects }) {
         Currently Working On
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+      <div id="current-project-cards" className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         {trail.map((style, i) => {
-          const project = items[i]
+          const project = visibleProjects[i]
           return (
             <animated.div
               key={project?.slug ?? i}
@@ -77,7 +83,7 @@ export default function CurrentlyWorkingOn({ projects }) {
                   >
                     View on GitHub
                   </a>
-                  <Link href={`/work/${project?.slug}`} legacyBehavior>
+                  <Link href={`/work/${encodeURIComponent(project.slug)}`} legacyBehavior>
                     <a
                       className="
                         inline-block px-4 py-2 rounded
@@ -95,6 +101,24 @@ export default function CurrentlyWorkingOn({ projects }) {
           )
         })}
       </div>
+
+      {visibleCount < items.length && (
+        <div className="mt-8 flex justify-center">
+          <button
+            type="button"
+            aria-controls="current-project-cards"
+            onClick={() => setVisibleCount(count => count + PROJECTS_PER_BATCH)}
+            className="
+              inline-block px-4 py-2 rounded shadow
+              bg-persian_green-500 text-charcoal-100 hover:text-white hover:bg-persian_green-600
+              dark:bg-charcoal-700 dark:hover:text-gray-100 dark:hover:bg-charcoal-600
+              transition-colors duration-300
+            "
+          >
+            Show more
+          </button>
+        </div>
+      )}
     </section>
   )
 }

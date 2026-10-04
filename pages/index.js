@@ -1,3 +1,4 @@
+import { fetchList } from '../lib/api'
 import SiteNav from '../components/Navbar'
 import Hero from '../components/Hero'
 import About from '../components/About'
@@ -13,7 +14,7 @@ export default function Home({ repos, currentProjects, theme, setTheme }) {
         <Hero />
       </div>
 
-      <div id="about">
+      <div>
         <About />
       </div>
 
@@ -21,7 +22,7 @@ export default function Home({ repos, currentProjects, theme, setTheme }) {
         <CurrentProject projects={currentProjects} />
       </div>
 
-      <div id="projects">
+      <div>
         <Projects repos={repos} />
       </div>
     </>
@@ -29,11 +30,10 @@ export default function Home({ repos, currentProjects, theme, setTheme }) {
 }
 
 export async function getStaticProps() {
-  const resRepos = await fetch(`${process.env.API_BASE_URL}/api/projects`)
-  const repos = await resRepos.json()
-
-  const resCW = await fetch(`${process.env.API_BASE_URL}/api/current-projects`)
-  const currentProjects = await resCW.json()
+  const [repos, currentProjects] = await Promise.all([
+    fetchList('projects'),
+    fetchList('current-projects'),
+  ])
 
   return {
     props: { repos, currentProjects }

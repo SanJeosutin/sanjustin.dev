@@ -3,10 +3,16 @@ import { useTrail, animated } from '@react-spring/web'
 import ProjectCard from './ProjectCard'
 
 export default function Projects({ repos }) {
+  const items = Array.isArray(repos) ? repos.filter(repo => repo && typeof repo === 'object' && !Array.isArray(repo)) : []
   const ITEMS_PER_PAGE = 6
-  const totalPages = Math.ceil(repos.length / ITEMS_PER_PAGE)
+  const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE)
 
   const [currentPage, setCurrentPage] = useState(1)
+  const page = Math.min(currentPage, Math.max(totalPages, 1))
+  useEffect(() => {
+    setCurrentPage(p => Math.min(p, Math.max(totalPages, 1)))
+  }, [totalPages])
+
   const [show, setShow] = useState(false)
   const sectionRef = useRef(null)
 
@@ -28,8 +34,8 @@ export default function Projects({ repos }) {
   }, [])
 
   // slice out only the repos for this page
-  const start = (currentPage - 1) * ITEMS_PER_PAGE
-  const currentRepos = repos.slice(start, start + ITEMS_PER_PAGE)
+  const start = (page - 1) * ITEMS_PER_PAGE
+  const currentRepos = items.slice(start, start + ITEMS_PER_PAGE)
 
   // animate only the current page’s cards
   const trail = useTrail(currentRepos.length, {
@@ -67,7 +73,7 @@ export default function Projects({ repos }) {
       <div className="mt-8 flex justify-center items-center space-x-2">
         <button
           onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
-          disabled={currentPage === 1}
+          disabled={page <= 1}
           className="
       inline-block px-4 py-2 rounded shadow
       bg-persian_green-500 text-white
@@ -81,28 +87,28 @@ export default function Projects({ repos }) {
         </button>
 
         {Array.from({ length: totalPages }, (_, idx) => {
-          const page = idx + 1
+          const buttonPage = idx + 1
           return (
             <button
-              key={page}
-              onClick={() => setCurrentPage(page)}
+              key={buttonPage}
+              onClick={() => setCurrentPage(buttonPage)}
               className={`
           inline-block px-4 py-2 rounded shadow
-          ${page === currentPage
+          ${buttonPage === page
                   ? '                bg-persian_green-500 text-white'
                   : '                hover:bg-persian_green-600'}
           dark:bg-charcoal-700 dark:text-gray-100 dark:hover:bg-charcoal-600
           transition-colors duration-300
         `}
             >
-              {page}
+              {buttonPage}
             </button>
           )
         })}
 
         <button
-          onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
-          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage(p => Math.min(p + 1, Math.max(totalPages, 1)))}
+          disabled={totalPages === 0 || page >= totalPages}
           className="
       inline-block px-4 py-2 rounded shadow
       bg-persian_green-500 text-white
