@@ -1,19 +1,66 @@
 # sanjustin.dev
 
-Justin San's personal portfolio, built with Next.js.
+Justin San's personal portfolio built with [Next.js](https://nextjs.org).
 
-Install dependencies with `npm ci`, then run `npm run dev` for development.
-Use Node.js 22.12 or newer for the test tooling. Run `npm test` for regression checks. For browser checks, install Chromium with
-`npx playwright install chromium`, then run `npm run test:e2e`. The browser suite
-builds and starts the production app against a local fixture API on ports 4100
-and 3100; it does not require the live API.
+## Quick start
 
-For production, run `npm run build` followed by `npm start`. The site uses
-server-rendered pages and incremental static regeneration, so it requires a
-Next.js server rather than a static export.
+```bash
+# 1. Clone the repo
+git clone https://github.com/SanJeosutin/sanjustin.dev.git
+cd sanjustin.dev
 
-Server-side API requests default to `https://apisanjustin.vercel.app`.
-Set `API_BASE_URL` in `.env` or the deployment environment to use another API
-origin. The API must be reachable at build time for the homepage; unavailable
-note/project path lists can be generated on demand. Temporary detail API
-failures preserve previously generated pages instead of caching a 404.
+# 2. Install dependencies
+npm ci
+
+# 3. Start the dev server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Tech requirements
+
+- Node.js 22.12 or newer
+- [Node.js](https://nodejs.org/) package manager (npm)
+
+## Available scripts
+
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Start the development server (http://localhost:3000) |
+| `npm run build` | Build for production |
+| `npm start` | Run the production server after building |
+| `npm test` | Run regression tests with Vitest |
+| `npm run test:e2e` | Run browser tests with Playwright |
+
+### End-to-end testing
+
+E2E tests run against a local fixture API on ports 4100 and 3100 — they don't need the live API. First install Chromium:
+
+```bash
+npx playwright install chromium
+npm run test:e2e
+```
+
+## Environment variables
+
+Create a `.env` file in the project root:
+
+```
+API_BASE_URL=https://apisanjustin.vercel.app
+```
+
+This controls where server-side API requests go. The default points to the live API at `apisanjustin.vercel.app`. You can override it in your deployment environment or with a local `.env` file.
+
+The API must be reachable at build time for the homepage to generate correctly. If it's down, previously cached pages are kept instead of being replaced with 404s.
+
+## Production deployment
+
+The site uses server-rendered pages and incremental static regeneration, so you need to run the Next.js server (not serve it as static files):
+
+```bash
+npm run build
+npm start
+```
+
+That's it — the built site will be available on port 3000 by default.
