@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Head from 'next/head'
 import '../styles/globals.css'
 import 'flowbite/dist/flowbite.css'
 import Footer from '../components/Footer'
@@ -33,11 +34,21 @@ export default function App({ Component, pageProps }) {
   }, [theme, themeReady])
 
   return (
-    <div className="flex flex-col min-h-screen transition-colors duration-500 ease-in-out">
+    <>
+      <Head>
+        <title>San Justin</title>
+        <link rel="icon" href="/icons/favicon-16x16.png" sizes="16x16" type="image/png" />
+        <link rel="icon" href="/icons/favicon-32x32.png" sizes="32x32" type="image/png" />
+        <link rel="icon" href="/icons/favicon-48x48.png" sizes="48x48" type="image/png" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <link rel="icon" href="/icons/favicon-192x192.png" type="image/png" />
+      </Head>
+      <div className="flex flex-col min-h-screen transition-colors duration-500 ease-in-out">
       <main className="flex-1">
         <Component {...pageProps} theme={theme} setTheme={setTheme} />
       </main>
       <Footer />
     </div>
+    </>
   )
 }
