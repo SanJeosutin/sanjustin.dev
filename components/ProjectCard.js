@@ -16,10 +16,22 @@ export default function ProjectCard({ repo }) {
       className="h-full"
     >
       <Card className="flex flex-col h-full border-2 border-persian_green-300">
-        <h5 className="text-xl font-semibold mb-2">{repo.name}</h5>
+        <div className="flex items-start justify-between gap-3">
+          <h5 className="text-xl font-semibold mb-2">{repo.name}</h5>
+          {repo.featured ? (
+            <span className="rounded-full bg-persian_green-100 px-3 py-1 text-xs font-semibold text-persian_green-700 dark:bg-charcoal-700 dark:text-persian_green-200">
+              Featured
+            </span>
+          ) : null}
+        </div>
         <p className="flex-1 text-gray-600 dark:text-gray-300">
           {repo.description || 'No description provided.'}
         </p>
+        {repo.showcaseNote ? (
+          <p className="mt-3 rounded-lg bg-sandy_brown-50 p-3 text-sm text-charcoal-700 dark:bg-charcoal-700 dark:text-gray-100">
+            {repo.showcaseNote}
+          </p>
+        ) : null}
         <div className="mt-4 flex items-center justify-between">
           <a
             href={repo.html_url}

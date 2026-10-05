@@ -24,26 +24,36 @@ const deferred = () => {
 
 function styleText(container) { return container.querySelector('style')?.textContent || '' }
 
-describe('pagination', () => {
-  it.each([[[]], [undefined], [null], [{}]])('disables both controls for an empty or invalid list: %j', repos => {
+describe('GitHub project showcase', () => {
+  it.each([[[]], [undefined], [null], [{}]])('renders an empty curated showcase without pagination controls: %j', repos => {
     render(<Projects repos={repos} />)
-    expect(screen.getByRole('button', { name: 'Prev' }).disabled).toBe(true)
-    expect(screen.getByRole('button', { name: 'Next' }).disabled).toBe(true)
+    expect(screen.getByRole('heading', { name: 'Selected Projects on GitHub' })).toBeTruthy()
+    expect(screen.queryByRole('button', { name: 'Prev' })).toBeNull()
+    expect(screen.queryByRole('button', { name: 'Next' })).toBeNull()
   })
 
-  it('shows six cards per page, respects boundaries, and recovers when data shrinks', async () => {
-    const { rerender } = render(<Projects repos={repos} />)
-    expect(screen.getAllByRole('link', { name: 'View Repo' })).toHaveLength(6)
-    expect(screen.getByRole('button', { name: 'Prev' }).disabled).toBe(true)
-    fireEvent.click(screen.getByRole('button', { name: '3' }))
-    await waitFor(() => expect(screen.getAllByRole('link', { name: 'View Repo' })).toHaveLength(1))
-    expect(screen.getByText('Repository 13')).toBeTruthy()
-    expect(screen.getByRole('button', { name: 'Next' }).disabled).toBe(true)
+  it('shows all curated project cards and updates when the curated list changes', async () => {
+    const { rerender } = render(<Projects repos={repos.slice(0, 3)} />)
+    expect(screen.getAllByRole('link', { name: 'View Repo' })).toHaveLength(3)
+    expect(screen.getByText('Repository 3')).toBeTruthy()
     rerender(<Projects repos={repos.slice(0, 2)} />)
     await waitFor(() => expect(screen.getAllByRole('link', { name: 'View Repo' })).toHaveLength(2))
     expect(screen.getByText('Repository 1')).toBeTruthy()
-    expect(screen.getByRole('button', { name: 'Prev' }).disabled).toBe(true)
+    expect(screen.queryByText('Repository 3')).toBeNull()
   })
+})
+
+
+
+it('renders GitHub projects as a curated showcase with notes and featured labels', () => {
+  render(<Projects repos={[
+    { id: 1, name: 'Selected repo', description: 'Important work', html_url: 'https://github.com/example/selected', stargazers_count: 5, showcaseNote: 'Pinned from Google Drive settings', featured: true },
+    { id: 2, name: 'Second repo', description: 'More work', html_url: 'https://github.com/example/second', stargazers_count: 2 },
+  ]} />)
+  expect(screen.getByRole('heading', { name: 'Selected Projects on GitHub' })).toBeTruthy()
+  expect(screen.getByText('Pinned from Google Drive settings')).toBeTruthy()
+  expect(screen.getByText('Featured')).toBeTruthy()
+  expect(screen.queryByRole('button', { name: 'Next' })).toBeNull()
 })
 
 describe('theme persistence', () => {

@@ -1,0 +1,10 @@
+{
+  "showcase": [
+    "repository-3",
+    {
+      "name": "repository-1",
+      "featured": true,
+      "note": "Primary project to show first"
+    }
+  ]
+}

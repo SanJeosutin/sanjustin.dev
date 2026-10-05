@@ -25,6 +25,7 @@ afterEach(() => {
   cleanup()
   vi.restoreAllMocks()
   vi.unstubAllGlobals()
+  vi.unstubAllEnvs()
   vi.stubGlobal('IntersectionObserver', IntersectionObserver)
   storageWindow.localStorage.clear()
   document.documentElement.className = ''

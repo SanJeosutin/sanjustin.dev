@@ -1,4 +1,5 @@
 import { fetchList } from '../lib/api'
+import { getShowcasedGithubProjects } from '../lib/github-project-settings'
 import SiteNav from '../components/Navbar'
 import Hero from '../components/Hero'
 import About from '../components/About'
@@ -36,6 +37,6 @@ export async function getStaticProps() {
   ])
 
   return {
-    props: { repos, currentProjects }
+    props: { repos: getShowcasedGithubProjects(repos), currentProjects }
   }
 }

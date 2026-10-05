@@ -1,0 +1,14 @@
+{
+  "showcase": [
+    {
+      "name": "your-repository-name",
+      "featured": true,
+      "note": "Optional short note shown on the card"
+    },
+    "another-repository-name",
+    {
+      "url": "https://github.com/your-user/third-repository",
+      "note": "You can match by GitHub URL too"
+    }
+  ]
+}
